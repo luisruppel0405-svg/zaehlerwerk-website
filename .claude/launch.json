@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "zaehlerwerk-neu-dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vercel@59.15.1", "dev", "--yes", "--listen", "3010"],
+      "port": 3010
+    }
+  ]
+}
