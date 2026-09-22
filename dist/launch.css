@@ -13,6 +13,17 @@
 @media(prefers-reduced-motion:reduce){.shot-enlarge{transition:none}}
 .reading-shot .mobile-crop{aspect-ratio:auto}.hero-mobile .mobile-crop{max-height:none}
 .contact-form-card .button:disabled{opacity:.55;cursor:not-allowed}
+.only-narrow{display:none}.site-header nav .nav-cta{display:none}
+@media(max-width:700px){.only-narrow{display:inline}.only-wide{display:none}
+.site-header .nav-actions .button.compact{display:none}
+.site-header nav .nav-cta{display:block;margin-top:10px;padding:13px 6px;color:var(--green);font-weight:600}
+.launch-hero .eyebrow{margin-bottom:15px}
+.launch-hero .hero-description{margin:15px 0 22px}
+.hero-links .text-link{display:none}
+.hero-facts{margin-top:20px}
+.product-stage{margin-top:26px}
+.hero-mobile .mobile-crop{max-height:430px;overflow:hidden}
+}
 #send-error{color:var(--danger);font-size:14px;line-height:1.6;margin-top:16px}
 #send-error a{color:inherit;text-decoration:underline}
 .real-shot.shot-missing .shot-button{cursor:default}
