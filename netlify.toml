@@ -1,0 +1,11 @@
+[build]
+  command = "node scripts/build.mjs"
+  publish = "dist"
+  functions = "netlify/functions"
+
+# Das Formular sendet an /api/kontakt; Netlify stellt Funktionen unter
+# /.netlify/functions/ bereit.
+[[redirects]]
+  from = "/api/kontakt"
+  to = "/.netlify/functions/kontakt"
+  status = 200
