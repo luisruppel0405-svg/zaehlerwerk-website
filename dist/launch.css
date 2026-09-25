@@ -13,6 +13,7 @@
 @media(prefers-reduced-motion:reduce){.shot-enlarge{transition:none}}
 .reading-shot .mobile-crop{aspect-ratio:auto}.hero-mobile .mobile-crop{max-height:none}
 .contact-form-card .button:disabled{opacity:.55;cursor:not-allowed}
+.hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .only-narrow{display:none}.site-header nav .nav-cta{display:none}
 .launch-feature a{min-height:44px}
 .unit-presets button{min-height:44px}

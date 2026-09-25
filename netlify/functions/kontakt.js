@@ -25,6 +25,16 @@ exports.handler = async (event) => {
     return json(400, { error: "Ungültige Anfrage." });
   }
 
+  // Bots füllen versteckte Felder aus und senden schneller ab, als ein
+  // Mensch tippen kann. Beides wird als Erfolg quittiert, damit der Bot
+  // keinen Hinweis bekommt, warum nichts ankommt.
+  const honeypot = String(body.website ?? "").trim();
+  const elapsed = Number(body.elapsed);
+  if (honeypot.length > 0 || (Number.isFinite(elapsed) && elapsed < 3000)) {
+    console.info("[kontakt] Verdächtige Einsendung verworfen", { honeypot: honeypot.length > 0, elapsed });
+    return json(200, { ok: true });
+  }
+
   const name = String(body.name ?? "").trim();
   const company = String(body.company ?? "").trim();
   const email = String(body.email ?? "").trim();
@@ -39,6 +49,10 @@ exports.handler = async (event) => {
   if (company.length < 2) errors.company = "Bitte geben Sie Ihr Unternehmen an.";
   if (!EMAIL_REGEX.test(email)) errors.email = "Bitte geben Sie eine gültige E-Mail-Adresse an.";
   if (message.length < 10) errors.message = "Bitte beschreiben Sie Ihr Anliegen etwas genauer.";
+  if (message.length > 5000) errors.message = "Bitte fassen Sie Ihr Anliegen etwas kürzer.";
+  if (name.length > 200 || company.length > 300 || email.length > 200) {
+    return json(422, { errors: { name: "Bitte prüfen Sie die Länge Ihrer Angaben." } });
+  }
 
   if (Object.keys(errors).length > 0) {
     return json(422, { errors });

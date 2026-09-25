@@ -167,6 +167,7 @@ if (form) {
   const defaultButtonLabel = generateButton.innerHTML;
   const errorBox = document.getElementById('send-error');
   const defaultErrorHTML = errorBox.innerHTML;
+  const formOpenedAt = Date.now();
   generateButton.disabled = false;
   form.addEventListener('submit', async event => {
     event.preventDefault();
@@ -186,7 +187,8 @@ if (form) {
         body: JSON.stringify({
           name: get('name'), company: get('company'), email: get('email'),
           phone: get('phone'), units: get('units'), billing: get('billing'),
-          anliegen: get('inquiry'), message: get('message')
+          anliegen: get('inquiry'), message: get('message'),
+          website: get('website'), elapsed: Date.now() - formOpenedAt
         })
       });
       if (response.ok) {
