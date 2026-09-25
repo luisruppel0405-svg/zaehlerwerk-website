@@ -49,11 +49,17 @@ assert.equal(calculatePrice(5001).custom,true);
 for(const n of ['',0,-1,1.2,'abc',1000001,Infinity])assert.equal(calculatePrice(n),null);
 assert.equal(calculatePrice(300,'invalid'),null);
 const contact=fs.readFileSync(path.join(dist,'kontakt/index.html'),'utf8');
-assert(contact.includes('class="button" disabled>E-Mail vorbereiten'));
-assert(contact.includes('Es wurde noch nichts versendet.'));
+assert(contact.includes('class="button" disabled>Anfrage senden'));
+assert(contact.includes('Ihre Nachricht ist bei uns angekommen.'));
+assert(contact.includes('class="hp-field"'),'Spamschutz-Feld fehlt');
 const js=fs.readFileSync(path.join(dist,'main.js'),'utf8');
-assert(!/\bfetch\s*\(|localStorage|sessionStorage|document\.cookie/.test(js),'Unexpected data transfer/storage');
-assert(fs.readFileSync(path.join(dist,'robots.txt'),'utf8').includes('Disallow: /'),'Private review indexing');
+// Das Formular sendet serverseitig; gespeichert wird im Browser nur die
+// Design-Auswahl. Beides steht so in der Datenschutzerklärung.
+assert(js.includes("fetch('/api/kontakt'"),'Kontakt-Endpunkt fehlt');
+assert(!/sessionStorage|document\.cookie/.test(js),'Unerwarteter Browser-Speicher');
+assert(!/localStorage\.(get|set)Item\((?!'zw-theme')/.test(js),'Unerwarteter localStorage-Schluessel');
+// Die Seite ist veröffentlicht und soll gefunden werden.
+assert(fs.readFileSync(path.join(dist,'robots.txt'),'utf8').includes('Allow: /'),'Suchmaschinen ausgesperrt');
 const size=walk(dist).reduce((sum,f)=>sum+fs.statSync(f).size,0);
 console.log('PASS: '+pages.length+' pages, '+references+' internal references, structured metadata, pricing tier/minimum/yearly boundaries, contact safeguards.');
 console.log('Static payload including all original screenshots: '+Math.round(size/1024)+' KiB.');
